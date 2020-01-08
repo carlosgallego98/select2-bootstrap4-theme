@@ -1,23 +1,19 @@
 .select2-container--bootstrap4 {
     .select2-selection--single {
-
         // height of input box
         height: $input-height !important;
-
         // placeholder
         .select2-selection__placeholder {
             // #757575 is same color of placeholder (on Chrome)
             color: #757575;
             line-height: $input-height-inner;
         }
-
         // arrow
         .select2-selection__arrow {
             position: absolute;
             top: 50%;
             right: 3px;
             width: 20px;
-
             b {
                 top: 60%;
                 border-color: $dark transparent transparent transparent;
@@ -31,7 +27,6 @@
                 position: absolute;
             }
         }
-
         // selected item
         .select2-selection__rendered {
             line-height: $input-height-inner;

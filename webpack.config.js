@@ -3,7 +3,7 @@ const path = require('path');
 const ProvidePlugin = require('webpack/lib/ProvidePlugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
-const isProd = process.env.NODE_ENV === 'production';
+const isProd = process.env.NODE_ENV === 'development';
 
 let plugins = [
     new ProvidePlugin({
@@ -29,40 +29,37 @@ module.exports = {
         filename: '[name].js',
     },
     module: {
-        rules: [
-            {
-                test: /\.scss$/,
-                use: ExtractTextPlugin.extract({
-                    fallback: 'style-loader',
-                    use: [
-                        {
-                            loader: 'css-loader',
-                        },
-                        {
-                            loader: 'postcss-loader',
-                            options: {
-                                plugins: () => {
-                                    let plugins = [
-                                        require('precss'),  // bootstrap4 requires this
-                                        require('autoprefixer')({ browsers: ['last 2 versions'] }),
-                                    ];
-                                    if (isProd) {
-                                      plugins = plugins.concat([
+        rules: [{
+            test: /\.scss$/,
+            use: ExtractTextPlugin.extract({
+                fallback: 'style-loader',
+                use: [{
+                        loader: 'css-loader',
+                    },
+                    {
+                        loader: 'postcss-loader',
+                        options: {
+                            plugins: () => {
+                                let plugins = [
+                                    require('precss'), // bootstrap4 requires this
+                                    require('autoprefixer')({ browsers: ['last 2 versions'] }),
+                                ];
+                                if (isProd) {
+                                    plugins = plugins.concat([
                                         require('cssnano')({ preset: 'default' }),
-                                      ])
-                                    }
+                                    ])
+                                }
 
-                                    return plugins;
-                                },
+                                return plugins;
                             },
                         },
-                        {
-                            loader: 'sass-loader',
-                        },
-                    ],
-                }),
-            },
-        ],
+                    },
+                    {
+                        loader: 'sass-loader',
+                    },
+                ],
+            }),
+        }, ],
     },
     plugins: plugins,
 };
